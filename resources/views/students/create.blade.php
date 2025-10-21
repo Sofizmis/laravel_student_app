@@ -80,6 +80,23 @@
                             @enderror
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label">City</label>
+                            <select name="city_id"
+                                class="form-control bg-dark text-white @error('city_id') is-invalid @enderror">
+                                <option value="">Select City</option>
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}"
+                                        {{ old('city_id') == $city->id ? 'selected' : '' }}>
+                                        {{ $city->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('city_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <button type="submit" class="btn btn-outline-success text-white">Save</button>
                     </form>
                 </div>

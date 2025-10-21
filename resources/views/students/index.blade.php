@@ -20,6 +20,7 @@
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Address</th>
+                    <th>City</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -31,6 +32,7 @@
                         <td>{{ $student->email }}</td>
                         <td>{{ $student->phone }}</td>
                         <td>{{ $student->address }}</td>
+                        <td>{{ $student->city->name }}</td>
                         <td>
                             <a href="{{ route('students.show', $student->id) }}" class="btn btn-outline-warning">View</a>
                             <a href="{{ route('students.edit', $student->id) }}" class="btn btn-outline-info">Edit</a>

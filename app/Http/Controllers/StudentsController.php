@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use Illuminate\Validation\Rule;
 
 class StudentsController extends Controller
 {
-    public function create() {
-        return view('students.create');
+    public function create()
+    {
+        $cities = City::all();
+        return view('students.create', compact('cities'));
     }
 
     public function store(Request $request)
@@ -18,20 +21,21 @@ class StudentsController extends Controller
             'name' => 'required|string|min:2|max:255',
             'email' => 'required|email|unique:students',
             'phone' => 'required|digits:11|unique:students,phone',
-            'address' => 'required|string|min:5|max:255'
+            'address' => 'required|string|min:5|max:255',
+            'city_id' => 'required|exists:cities,id'
         ]);
 
         Student::create($request->all());
         return back()->with('success', 'Student added successfully');
     }
 
-    public function index() 
+     public function index()
     {
-        //$students = Student::orderBy('created_at', 'desc')->paginate(5);
-        //или
-        $students = Student::orderBy('created_at')->paginate(5);
+        $students = Student::with('city')->orderByDesc('created_at')->paginate(5);
         return view('students.index', compact('students'));
     }
+
+
 
     public function show(Student $student) 
     {
@@ -41,8 +45,10 @@ class StudentsController extends Controller
 
     public function edit(Student $student)
     {
-        return view('students.edit', compact('student'));
+        $cities = City::all();
+        return view('students.edit', compact('student', 'cities'));
     }
+
 
     public function update(Request $request, Student $student)
     {
@@ -59,6 +65,7 @@ class StudentsController extends Controller
                 Rule::unique('students', 'phone')->ignore($student->id)
             ],
             'address' => 'required|string|min:5|max:255',
+            'city_id' => 'required|exists:cities,id'
         ]);
 
         $student->update($request->all());

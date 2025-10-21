@@ -14,6 +14,7 @@
                 <h5 class="card-text"><strong>Email:</strong> {{ $student->email }}</h5>
                 <h5 class="card-text"><strong>Phone:</strong> {{ $student->phone }}</h5>
                 <h5 class="card-title"><strong>Address:</strong> {{ $student->address }}</h5>
+                <h5 class="card-text"><strong>City:</strong> {{ $student->city->name }}</h5>
                 <a href="{{ route('students.index') }}" class="btn btn-secondary">Back to List</a>
             </div>
         </div>
